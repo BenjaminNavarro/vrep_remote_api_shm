@@ -9,9 +9,9 @@ else
 	EXT = dylib
 endif
 
-all: 
+all:
 	@rm -f lib/*.$(EXT)
-	@rm -f *.o 
+	@rm -f *.o
 	g++ $(CFLAGS) -c confReader.cpp -o confReader.o
 	g++ $(CFLAGS) -c inConnection.cpp -o inConnection.o
 	g++ $(CFLAGS) -c porting.cpp -o porting.o
@@ -26,4 +26,4 @@ all:
 	g++ $(CFLAGS) -c ../common/v_repLib.cpp -o v_repLib.o
 	g++ $(CFLAGS) -c ../common/shared_memory.c -o shared_memory.o
 	@mkdir -p lib
-	g++ scriptFunctionData.o scriptFunctionDataItem.o confReader.o inConnection.o porting.o simxCmd.o simxConnections.o simxUtils.o simxSocket.o simxContainer.o v_repExtRemoteApi.o v_repLib.o shared_memory.o -o lib/libv_repExtRemoteApi.$(EXT) -lpthread -ldl -shared 
+	g++ scriptFunctionData.o scriptFunctionDataItem.o confReader.o inConnection.o porting.o simxCmd.o simxConnections.o simxUtils.o simxSocket.o simxContainer.o v_repExtRemoteApi.o v_repLib.o shared_memory.o -o lib/libv_repExtRemoteApi.$(EXT) -lpthread -ldl -shared

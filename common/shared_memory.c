@@ -11,6 +11,15 @@
 	#include <stdio.h>
 #endif
 
+void reset_shared_memory_pointer(shared_memory_info_t* info) {
+	info->buffer = NULL;
+#ifdef _WIN32
+	info->handle = NULL;
+#elif defined (__linux) || defined (__APPLE__)
+	info->handle = -1;
+#endif
+}
+
 bool create_shared_memory(shared_memory_info_t* info)
 {
 	info->header_size = 20;
@@ -26,13 +35,12 @@ bool create_shared_memory(shared_memory_info_t* info)
 bool destroy_shared_memory(shared_memory_info_t* info)
 {
 	bool ok = false;
-	#ifdef _WIN32
+#ifdef _WIN32
 	ok = CloseHandle(info->handle);
-	info->handle = NULL;
-	#elif defined (__linux) || defined (__APPLE__)
+#elif defined (__linux) || defined (__APPLE__)
 	ok = (shm_unlink(info->name) == 0) && (close(info->handle) == 0);
-	info->handle = -1;
-	#endif /* _WIN32 */
+#endif /* _WIN32 */
+	reset_shared_memory_pointer(info);
 	return ok;
 }
 
@@ -53,11 +61,10 @@ bool close_shared_memory(shared_memory_info_t* info)
 	bool ok = false;
 #ifdef _WIN32
 	ok = CloseHandle(info->handle);
-	info->handle = NULL;
 #elif defined (__linux) || defined (__APPLE__)
 	ok = (close(info->handle) == 0);
-	info->handle = -1;
 #endif /* _WIN32 */
+	reset_shared_memory_pointer(info);
 	return ok;
 }
 
@@ -77,7 +84,13 @@ bool unmap_shared_memory(shared_memory_info_t* info)
 #ifdef _WIN32
 	return UnmapViewOfFile(info->handle);
 #elif defined (__linux) || defined (__APPLE__)
-	return munmap(info->buffer, info->size + info->header_size) == 0;
+	bool ok = true;
+	if(info->buffer != NULL)
+	{
+		ok = munmap(info->buffer, info->size + info->header_size) == 0;
+		info->buffer = NULL;
+	}
+	return ok;
 #endif /* _WIN32 */
 }
 

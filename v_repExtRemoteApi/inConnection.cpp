@@ -36,6 +36,7 @@
 #include <fcntl.h>      /* Defines O_ * constants */
 #include <sys/stat.h>   /* Defines mode constants */
 #include <sys/mman.h>
+#include <stdio.h>
 #endif
 
 CInConnection::CInConnection(int theConnectionPort,int maxPacketSize,bool newVersion)

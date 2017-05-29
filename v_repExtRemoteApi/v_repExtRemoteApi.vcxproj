@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
@@ -9,6 +9,7 @@
   <ItemGroup>
     <ClCompile Include="..\common\scriptFunctionData.cpp" />
     <ClCompile Include="..\common\scriptFunctionDataItem.cpp" />
+    <ClCompile Include="..\common\shared_memory.c" />
     <ClCompile Include="..\common\v_repLib.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -43,6 +44,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\scriptFunctionData.h" />
     <ClInclude Include="..\include\scriptFunctionDataItem.h" />
+    <ClInclude Include="..\include\shared_memory.h" />
     <ClInclude Include="..\include\v_repLib.h" />
     <ClInclude Include="confReader.h" />
     <ClInclude Include="inConnection.h" />
@@ -58,6 +60,7 @@
     <ProjectGuid>{33B33469-BD1D-952C-928D-116DCF0842B7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>v_repExtRemoteApi</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -65,7 +68,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">

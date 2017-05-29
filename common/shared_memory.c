@@ -1,14 +1,16 @@
 #include "shared_memory.h"
 
+#include <stdio.h>
+
 #ifdef _WIN32
 	#include <windows.h>
+	#include <memory.h> 
 #elif defined (__linux) || defined (__APPLE__)
 	#include <fcntl.h>      /* Defines O_ * constants */
 	#include <sys/stat.h>   /* Defines mode constants */
 	#include <sys/mman.h>
 	#include <unistd.h>
 	#include <sys/types.h>
-	#include <stdio.h>
 #endif
 
 void reset_shared_memory_pointer(shared_memory_info_t* info) {

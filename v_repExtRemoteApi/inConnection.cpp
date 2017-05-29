@@ -102,9 +102,11 @@ CInConnection::~CInConnection()
 {
 	if (_usingSharedMem)
 	{
+#if defined (__linux) || defined (__APPLE__)
 		if(unmap_shared_memory(&_shared_memory_info) == false) {
 			fprintf(stderr, "Failed to unmap the shared memory \"%s\"\n", _shared_memory_info.name);
 		}
+#endif
 		if(destroy_shared_memory(&_shared_memory_info) == false) {
 			fprintf(stderr, "Failed to destroy the shared memory \"%s\"\n", _shared_memory_info.name);
 		}

@@ -563,7 +563,7 @@ simxUChar extApi_connectToServer_sharedMem(simxInt clientID,simxInt theConnectio
 	theConnectionPort=-theConnectionPort;
 	shared_memory_info_t shared_memory_info;
 	set_shared_memory_name(&shared_memory_info, theConnectionPort);
-	set_shared_memory_size(&shared_memory_info, 6);
+	set_shared_memory_size(&shared_memory_info, 2);
 
 	if(open_shared_memory(&shared_memory_info))
 	{
@@ -571,20 +571,25 @@ simxUChar extApi_connectToServer_sharedMem(simxInt clientID,simxInt theConnectio
 		{
 			if(shared_memory_info.buffer[0]==0)
 			{
-				if(unmap_shared_memory(&_shmInfo[clientID]) == false) {
-					fprintf(stderr, "Failed to unmap the shared memory \"%s\"\n", _shmInfo[clientID].name);
+				set_shared_memory_size(&shared_memory_info, ((simxInt*)(shared_memory_info.buffer+1))[0]);
+
+#if defined (__linux) || defined (__APPLE__)
+				// Doesn't work on Windows, don't known why...
+				if(unmap_shared_memory(&shared_memory_info) == false) {
+					fprintf(stderr, "Connect (%d): Failed to unmap the shared memory \"%s\"\n", clientID, shared_memory_info.name);
 				}
-				if(close_shared_memory(&_shmInfo[clientID]) == false) {
-					fprintf(stderr, "Failed to close the shared memory \"%s\"\n", _shmInfo[clientID].name);
+#endif
+				if(close_shared_memory(&shared_memory_info) == false) {
+					fprintf(stderr, "Connect (%d): Failed to close the shared memory \"%s\"\n", clientID, shared_memory_info.name);
 				}
 
-				set_shared_memory_size(&shared_memory_info, ((simxInt*)(shared_memory_info.buffer+1))[0]);
 				if(open_shared_memory(&shared_memory_info) == false) {
-					fprintf(stderr, "Failed to reopen the shared memory \"%s\"\n", _shmInfo[clientID].name);
+					fprintf(stderr, "Connect (%d): Failed to reopen the shared memory \"%s\"\n", clientID, shared_memory_info.name);
 				}
 				if(map_shared_memory(&shared_memory_info) == false) {
-					fprintf(stderr, "Failed to remap the shared memory \"%s\"\n", _shmInfo[clientID].name);
+					fprintf(stderr, "Connect (%d): Failed to remap the shared memory \"%s\"\n", clientID,shared_memory_info.name);
 				}
+				fflush(stderr);
 
 				shared_memory_info.buffer[5]=0; /* client has nothing to send */
 				shared_memory_info.buffer[0]=1; /* connected */
@@ -595,13 +600,14 @@ simxUChar extApi_connectToServer_sharedMem(simxInt clientID,simxInt theConnectio
 		}
 		else
 		{
-			fprintf(stderr, "Failed to map the shared memory \"%s\"\n", shared_memory_info.name);
+			fprintf(stderr, "Connect (%d): Failed to map the shared memory \"%s\"\n", clientID, shared_memory_info.name);
 		}
 	}
 	else
 	{
-		fprintf(stderr, "Failed to open the shared memory \"%s\"\n", shared_memory_info.name);
+		fprintf(stderr, "Connect (%d): Failed to open the shared memory \"%s\"\n", clientID, shared_memory_info.name);
 	}
+	fflush(stderr);
 	destroy_shared_memory(&shared_memory_info);
 	return 0;
 }
@@ -609,12 +615,16 @@ simxUChar extApi_connectToServer_sharedMem(simxInt clientID,simxInt theConnectio
 simxVoid extApi_cleanUp_sharedMem(simxInt clientID)
 {
 	_shmInfo[clientID].buffer[0] = 0;
+#if defined (__linux) || defined (__APPLE__)
+	// Doesn't work on Windows, don't known why...
 	if(unmap_shared_memory(&_shmInfo[clientID]) == false) {
-		fprintf(stderr, "Failed to unmap the shared memory \"%s\"\n", _shmInfo[clientID].name);
+		fprintf(stderr, "Clean up (%d): Failed to unmap the shared memory \"%s\"\n", clientID, _shmInfo[clientID].name);
 	}
+#endif
 	if(close_shared_memory(&_shmInfo[clientID]) == false) {
-		fprintf(stderr, "Failed to close the shared memory \"%s\"\n", _shmInfo[clientID].name);
+		fprintf(stderr, "Clean up (%d): Failed to close the shared memory \"%s\"\n", clientID, _shmInfo[clientID].name);
 	}
+	fflush(stderr);
 }
 
 simxInt extApi_send_sharedMem(simxInt clientID,const simxUChar* data,simxInt dataLength)

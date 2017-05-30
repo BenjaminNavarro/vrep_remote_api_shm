@@ -40,7 +40,7 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     set(remoteApiDef __linux)
 endif()
 target_compile_definitions(remoteApi PRIVATE MAX_EXT_API_CONNECTIONS=255 NON_MATLAB_PARSING ${remoteApiDef})
-if(${UNIX})
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 target_link_libraries(remoteApi rt)
 endif()
 

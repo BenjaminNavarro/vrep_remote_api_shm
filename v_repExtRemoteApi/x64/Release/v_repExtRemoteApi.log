@@ -1,0 +1,11 @@
+﻿  inConnection.cpp
+  -----------------------> Adding library: Winmm.lib
+  Adding library: Ws2_32.lib
+     Creating library C:\Users\black\Documents\vrep_remote_api_shm\v_repExtRemoteApi\x64\Release\v_repExtRemoteApi.lib and object C:\Users\black\Documents\vrep_remote_api_shm\v_repExtRemoteApi\x64\Release\v_repExtRemoteApi.exp
+  Generating code
+  6 of 1443 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    32 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  v_repExtRemoteApi.vcxproj -> C:\Users\black\Documents\vrep_remote_api_shm\v_repExtRemoteApi\x64\Release\v_repExtRemoteApi.dll
+  v_repExtRemoteApi.vcxproj -> C:\Users\black\Documents\vrep_remote_api_shm\v_repExtRemoteApi\x64\Release\v_repExtRemoteApi.pdb (Full PDB)

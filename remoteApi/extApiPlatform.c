@@ -571,10 +571,14 @@ simxUChar extApi_connectToServer_sharedMem(simxInt clientID,simxInt theConnectio
 		{
 			if(shared_memory_info.buffer[0]==0)
 			{
-				_shmInfo[clientID] = shared_memory_info;
-				_shmInfo[clientID].size = ((simxInt*)(shared_memory_info.buffer+1))[0];
+				set_shared_memory_size(&shared_memory_info, ((simxInt*)(shared_memory_info.buffer+1))[0]);
+				unmap_shared_memory(&shared_memory_info);
+				map_shared_memory(&shared_memory_info);
+
 				shared_memory_info.buffer[5]=0; /* client has nothing to send */
 				shared_memory_info.buffer[0]=1; /* connected */
+
+				_shmInfo[clientID] = shared_memory_info;
 				return 1;
 			}
 		}

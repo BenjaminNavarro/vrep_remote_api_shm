@@ -30,3 +30,12 @@ On a scenario where ~1800 bytes are sent from the server to the client using the
 
 # Acknowledgements
 Even if it has not been release by Coppelia, the implementation for Windows was already done but deactivated (both a compile flag and commented sections). I just made an abstraction layer to make it work with Windows and POSIX systems.
+
+
+
+CMake on Windows: 
+```
+cd build
+cmake -G "Visual Studio 15 2017 Win64" ..
+cmake --build . --config Release
+```

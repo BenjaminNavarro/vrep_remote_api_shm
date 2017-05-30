@@ -71,7 +71,7 @@ int main(int argc, char const *argv[]) {
 	if(client_id_tcp < 0) {
 		std::cerr << "Failed to connect to V-REP using the TCP port 19997" << std::endl;
 	}
-	
+
 	simxStartSimulation(client_id_tcp, simx_opmode_oneshot_wait);
 	std::this_thread::sleep_for(1s);
 	startStreaming(client_id_tcp);

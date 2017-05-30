@@ -9,7 +9,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
-set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
 
 file(
     GLOB
@@ -51,4 +51,4 @@ file(
 )
 add_executable(test_shm ${test_shm_src})
 target_link_libraries(test_shm remoteApi)
-set_property(TARGET test_shm PROPERTY CXX_STANDARD 11)
+set_property(TARGET test_shm PROPERTY CXX_STANDARD 14)

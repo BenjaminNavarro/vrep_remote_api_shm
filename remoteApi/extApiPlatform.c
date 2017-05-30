@@ -573,19 +573,6 @@ simxUChar extApi_connectToServer_sharedMem(simxInt clientID,simxInt theConnectio
 			{
 				set_shared_memory_size(&shared_memory_info, ((simxInt*)(shared_memory_info.buffer+1))[0]);
 
-#if defined (__linux) || defined (__APPLE__)
-				// Doesn't work on Windows, don't known why...
-				if(unmap_shared_memory(&shared_memory_info) == false) {
-					fprintf(stderr, "Connect (%d): Failed to unmap the shared memory \"%s\"\n", clientID, shared_memory_info.name);
-				}
-#endif
-				if(close_shared_memory(&shared_memory_info) == false) {
-					fprintf(stderr, "Connect (%d): Failed to close the shared memory \"%s\"\n", clientID, shared_memory_info.name);
-				}
-
-				if(open_shared_memory(&shared_memory_info) == false) {
-					fprintf(stderr, "Connect (%d): Failed to reopen the shared memory \"%s\"\n", clientID, shared_memory_info.name);
-				}
 				if(map_shared_memory(&shared_memory_info) == false) {
 					fprintf(stderr, "Connect (%d): Failed to remap the shared memory \"%s\"\n", clientID,shared_memory_info.name);
 				}

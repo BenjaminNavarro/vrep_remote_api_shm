@@ -571,9 +571,20 @@ simxUChar extApi_connectToServer_sharedMem(simxInt clientID,simxInt theConnectio
 		{
 			if(shared_memory_info.buffer[0]==0)
 			{
+				if(unmap_shared_memory(&_shmInfo[clientID]) == false) {
+					fprintf(stderr, "Failed to unmap the shared memory \"%s\"\n", _shmInfo[clientID].name);
+				}
+				if(close_shared_memory(&_shmInfo[clientID]) == false) {
+					fprintf(stderr, "Failed to close the shared memory \"%s\"\n", _shmInfo[clientID].name);
+				}
+
 				set_shared_memory_size(&shared_memory_info, ((simxInt*)(shared_memory_info.buffer+1))[0]);
-				unmap_shared_memory(&shared_memory_info);
-				map_shared_memory(&shared_memory_info);
+				if(open_shared_memory(&shared_memory_info) == false) {
+					fprintf(stderr, "Failed to reopen the shared memory \"%s\"\n", _shmInfo[clientID].name);
+				}
+				if(map_shared_memory(&shared_memory_info) == false) {
+					fprintf(stderr, "Failed to remap the shared memory \"%s\"\n", _shmInfo[clientID].name);
+				}
 
 				shared_memory_info.buffer[5]=0; /* client has nothing to send */
 				shared_memory_info.buffer[0]=1; /* connected */

@@ -55,7 +55,7 @@ It depends on both your scene and your OS. You can use the `test_shm` applicatio
 * Windows 10: 0.86 (shared memory) / 0.84 (TCP)
 * macOS Sierra: 0.99 (shared memory) / 0.99 (TCP), with increased data size: 0.87 (shared memory), 0.52 (TCP)
 
-It can seen that the best performance is acheived using the shared memory on Linux but also that the difference on Windows is not significant. More tests are needed to determine the specific cases where it is trully usefull.  
+It can seen that the performance rely heavily on the system and the amount of data exchanged. More tests are needed to determine the specific cases where it is trully usefull.  
 
 # Acknowledgements
 Even if it has not been release by Coppelia, the implementation for Windows was already done but deactivated (both a compile flag and commented sections). I just made an abstraction layer to make it work with Windows and POSIX systems and improved the system a bit.

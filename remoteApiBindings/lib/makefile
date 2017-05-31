@@ -3,7 +3,7 @@ LDFLAGS = -lpthread -ldl
 
 OS = $(shell uname -s)
 ifeq ($(OS), Linux)
-	CFLAGS += -D__linux
+	CFLAGS += -D__linux -lrt
 	LDFLAGS += -shared
 	EXT = so
 else

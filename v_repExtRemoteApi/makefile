@@ -2,7 +2,7 @@ CFLAGS = -I../include -Wall -fPIC -static
 
 OS = $(shell uname -s)
 ifeq ($(OS), Linux)
-	CFLAGS += -D__linux
+	CFLAGS += -D__linux -lrt
 	EXT = so
 else
 	CFLAGS += -D__APPLE__

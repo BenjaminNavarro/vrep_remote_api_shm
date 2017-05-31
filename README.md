@@ -1,5 +1,5 @@
 # vrep_remote_api_shm
-This version of the V-REP remote API enables the shared memory based communication for Windows and POSIX platforms. For now, only Linux and Windows 10 have been tested. Tests on other platforms will come soon.
+This version of the V-REP remote API enables the shared memory based communication for Windows and POSIX platforms. Tests have been conducted on Windows, macOS and Linux.
 
 # Why using shared memory
 In one word: speed. The original method uses a TCP connection between the client (your program) and the server (V-REP). 
@@ -10,6 +10,7 @@ Shared memory allows the client and the server to share a common memory segment 
 # Installation
 Both the server (V-REP) and client (your application) parts need to be updated with this version. You can try to directly use the precompiled versions:
 * lib/libv_repExtRemoteApi.so and lib/libremoteApi.so for Linux
+* lib/libv_repExtRemoteApi.dylib and lib/libremoteApi.dylib for macOS
 * lib/Release/libv_repExtRemoteApi.dll and lib/Release/remoteApi.dll for Windows
 
 but if it doesn't work for you, try to recompile them (see next section) before following the installation instructions.
@@ -52,11 +53,9 @@ Once the server is started, you can connect to it from your client using: `simxS
 It depends on both your scene and your OS. You can use the `test_shm` application to check is using the shared memory can be beneficial on your machine (compare the real time factors printed at the end). On the same laptop, with V-REP 3.4.0, I get the following real time factors by running the `test_shm` benchmark:
 * Linux (4.11): 0.98 (shared memory) / 0.21 (TCP)
 * Windows 10: 0.86 (shared memory) / 0.84 (TCP)
+* macOS Sierra: 0.99 (shared memory) / 0.99 (TCP), with increased data size: 0.87 (shared memory), 0.52 (TCP)
 
 It can seen that the best performance is acheived using the shared memory on Linux but also that the difference on Windows is not significant. More tests are needed to determine the specific cases where it is trully usefull.  
-
-# TODO
- * Check with macOS.
 
 # Acknowledgements
 Even if it has not been release by Coppelia, the implementation for Windows was already done but deactivated (both a compile flag and commented sections). I just made an abstraction layer to make it work with Windows and POSIX systems and improved the system a bit.
